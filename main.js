@@ -12,11 +12,8 @@ server.use(middleware);
 server.use(jsonServer.bodyParser);
 server.use((req, res, next) => {
   if (req.method === "GET") {
-    req.query.page = req.query.page || 1;
-    req.query.pageSize = req.query.pageSize || 10;
     req.query._page = req.query.page || 1;
     req.query._limit = req.query.pageSize || 10;
-    
   }
 
   if (req.method === "POST") {
