@@ -34,14 +34,14 @@ router.render = (req, res) => {
     if (req.method === "GET" && Array.isArray(res.locals.data)) {
       const query = queryString.parse(req._parsedUrl.query);
       const total = res.get("X-Total-Count") || res.locals.data.length;
-
+      console.log(query);
       return res.jsonp({
         ok: true,
         items: res.locals.data,
-        pageSize: Number.parseInt(query._limit) || res.locals.data.length,
+        pageSize: Number.parseInt(query.pageSize),
         total,
         length: res.locals.data.length,
-        pageNumber: Number.parseInt(query._page) || 1,
+        pageNumber: Number.parseInt(query.page),
       });
     }
 
