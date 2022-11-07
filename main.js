@@ -11,14 +11,24 @@ server.use(middleware);
 // You can use the one used by JSON Server
 server.use(jsonServer.bodyParser);
 server.use((req, res, next) => {
+  if (req.method === "GET") {
+    req.query._page = req.query.page || 1;
+    req.query._limit = req.query.pageSize || 10;
+  }
+
   if (req.method === "POST") {
     req.body.createdAt = Date.now();
+    req.body.updatedAt = Date.now();
+  }
+
+  if (req.method === "PUT" || req.method === "PATCH") {
     req.body.updatedAt = Date.now();
   }
   // Continue to JSON Server router
   next();
 });
 
+// Custom response render
 router.render = (req, res) => {
   try {
     if (req.method === "GET" && Array.isArray(res.locals.data)) {
@@ -50,6 +60,7 @@ router.render = (req, res) => {
 // Use default router
 server.use("/api", router);
 
+// Not found routing
 server.use((req, res, next) => {
   res.status(404).jsonp({
     ok: false,
@@ -57,6 +68,7 @@ server.use((req, res, next) => {
   });
 });
 
+// Listen Server
 server.listen(5000, () => {
   console.log("JSON Server is running");
 });
