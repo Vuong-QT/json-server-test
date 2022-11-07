@@ -38,10 +38,10 @@ router.render = (req, res) => {
       return res.jsonp({
         ok: true,
         items: res.locals.data,
-        pageSize: Number.parseInt(query.pageSize),
+        pageSize: Number.parseInt(query.pageSize) || 10,
         total,
         length: res.locals.data.length,
-        pageNumber: Number.parseInt(query.page),
+        pageNumber: Number.parseInt(query.page) || 1,
       });
     }
 
