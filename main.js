@@ -34,7 +34,7 @@ router.render = (req, res) => {
     if (req.method === "GET" && Array.isArray(res.locals.data)) {
       const query = queryString.parse(req._parsedUrl.query);
       const total = res.get("X-Total-Count") || res.locals.data.length;
-      console.log(query);
+
       return res.jsonp({
         ok: true,
         items: res.locals.data,
