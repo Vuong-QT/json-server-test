@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:5000/api
+
+# @get all
+GET {{baseUrl}}/monitors
+
+
+# @get detail
+GET {{baseUrl}}/monitors/1
+
+
+# @add new monitor
+POST {{baseUrl}}/monitors
+Content-Type: application/json
+{
+  "name": "Test",
+  "type": "electricity",
+  "overVoltage": 96,
+  "underVoltage": 46,
+  "phaseLoss": 45,
+  "phaseUnbalanced": 26,
+  "overLoad": 76,
+  "overFlow": null,
+  "underFlow": null,
+  "overPressure": null,
+  "underPressure": null,
+  "cosPhi": 29,
+  "THDi": 98
+},
