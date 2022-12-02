@@ -13,7 +13,7 @@ server.use(jsonServer.bodyParser);
 server.use((req, res, next) => {
   if (req.method === "GET") {
     req.query._page = req.query.page || 1;
-    req.query._limit = req.query.pageSize || 10;
+    req.query._limit = req.query.limit || 10;
   }
 
   if (req.method === "POST") {
@@ -36,19 +36,16 @@ router.render = (req, res) => {
       const total = res.get("X-Total-Count") || res.locals.data.length;
 
       return res.jsonp({
-        ok: true,
-        items: res.locals.data,
-        pageSize: Number.parseInt(query.pageSize) || 10,
+        data: res.locals.data,
+        limit: Number.parseInt(query.limit) || 10,
         total,
-        length: res.locals.data.length,
-        pageNumber: Number.parseInt(query.page) || 1,
+        page: Number.parseInt(query.page) || 1,
       });
     }
 
-    res.jsonp({
-      ok: true,
-      item: res.locals.data,
-    });
+    res.jsonp(
+      res.locals.data
+    );
   } catch (error) {
     res.status(500).jsonp({
       ok: false,
@@ -58,7 +55,7 @@ router.render = (req, res) => {
 };
 
 // Use default router
-server.use("/api", router);
+server.use("/", router);
 
 // Not found routing
 server.use((req, res, next) => {
